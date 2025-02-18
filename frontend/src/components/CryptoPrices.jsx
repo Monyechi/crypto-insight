@@ -6,6 +6,13 @@ const CryptoPrices = () => {
 
   useEffect(() => {
     loadPrices();
+
+    // Auto-refresh prices every 60 seconds
+    const interval = setInterval(() => {
+      loadPrices();
+    }, 60000);
+
+    return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
   const loadPrices = async () => {
@@ -13,15 +20,9 @@ const CryptoPrices = () => {
     setPrices(data);
   };
 
-  const handleUpdate = async () => {
-    await updateCryptoPrices();
-    loadPrices();
-  };
-
   return (
     <div>
       <h2>Crypto Prices</h2>
-      <button onClick={handleUpdate}>Fetch Latest Prices</button>
       <table border="1">
         <thead>
           <tr>

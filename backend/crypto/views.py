@@ -2,6 +2,7 @@ import requests
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import CryptoPrice
+from django.http import JsonResponse
 
 @api_view(['GET'])
 def fetch_crypto_prices(request):
@@ -20,5 +21,5 @@ def fetch_crypto_prices(request):
 
 @api_view(['GET'])
 def get_saved_prices(request):
-    prices = CryptoPrice.objects()
-    return Response([crypto.to_json() for crypto in prices])
+    prices = list(CryptoPrice.objects())  # Force DB fetch
+    return JsonResponse([crypto.to_json() for crypto in prices], safe=False)
