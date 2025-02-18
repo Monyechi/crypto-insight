@@ -1,5 +1,5 @@
 import React from "react";
-import CryptoPrices from "./components/CryptoPrices";
+import CryptoPrices from "./components/CryptoPrices.jsx"; // Ensure correct import
 
 function App() {
   return (
