@@ -1,8 +1,11 @@
 import requests
+from django.contrib.auth.models import User
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from .models import CryptoPrice, Portfolio
 from django.http import JsonResponse
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
 
 @api_view(['GET'])
 def fetch_crypto_prices(request):
@@ -74,3 +77,41 @@ def get_portfolio_value(request, user_id):
             })
 
     return JsonResponse({"total_value": total_value, "portfolio": portfolio_data})
+
+
+@api_view(["POST"])
+def register_user(request):
+    """Register a new user"""
+    username = request.data.get("username")
+    password = request.data.get("password")
+
+    if not username or not password:
+        return Response({"error": "Username and password required"}, status=400)
+
+    if User.objects.filter(username=username).exists():
+        return Response({"error": "Username already exists"}, status=400)
+
+    user = User.objects.create_user(username=username, password=password)
+    return Response({"message": "User registered successfully!"})
+
+
+@api_view(["POST"])
+def login_user(request):
+    """Authenticate user and return JWT token"""
+    username = request.data.get("username")
+    password = request.data.get("password")
+
+    from django.contrib.auth import authenticate
+
+    user = authenticate(username=username, password=password)
+    if user:
+        refresh = RefreshToken.for_user(user)
+        return Response({"access": str(refresh.access_token), "refresh": str(refresh)})
+    return Response({"error": "Invalid credentials"}, status=400)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def protected_view(request):
+    """Example protected endpoint"""
+    return Response({"message": f"Hello, {request.user.username}!"})
