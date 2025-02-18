@@ -8,4 +8,7 @@ urlpatterns = [
     path("portfolio/add/", views.add_holding, name="add_holding"),
     path("portfolio/<str:user_id>/", views.get_portfolio, name="get_portfolio"),
     path("portfolio/value/<str:user_id>/", views.get_portfolio_value, name="get_portfolio_value"),
+    path("auth/register/", views.register_user, name="register_user"),
+    path("auth/login/", views.login_user, name="login_user"),
+    path("auth/protected/", views.protected_view, name="protected_view"),
 ]
