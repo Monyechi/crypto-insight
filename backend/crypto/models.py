@@ -1,15 +1,11 @@
-from django.db import models
-from django.forms import DateTimeField
-from mongoengine import Document, StringField, FloatField
-from datetime import datetime 
-
-
+from mongoengine import Document, StringField, FloatField, DateTimeField 
+from datetime import datetime
 
 class CryptoPrice(Document):
     name = StringField(required=True)
-    symbol = StringField(required=True, unique=True)
+    symbol = StringField(required=True)
     price = FloatField(required=True)
-    timestamp = DateTimeField(default=datetime.now(datetime.timezone.utc))
+    timestamp = DateTimeField(default=datetime.utcnow) 
 
     def to_json(self):
         return {

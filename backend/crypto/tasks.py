@@ -9,11 +9,11 @@ def fetch_crypto_prices_task():
     response = requests.get(url).json()
 
     for coin, data in response.items():
-        CryptoPrice(
-            name=coin.capitalize(),
-            symbol=coin,
-            price=data["usd"],
-            timestamp=datetime.now(datetime.timezone.utc)
-        ).save()  # Save new price instead of overwriting
+        CryptoPrice.objects(symbol=coin).update_one(
+            set__name=coin.capitalize(),
+            set__price=data["usd"],
+            set__timestamp=datetime.utcnow(),  # Update timestamp
+            upsert=True  # Create new if it doesn't exist
+        )
 
     return "Crypto Prices Updated!"
