@@ -1,7 +1,7 @@
 import requests
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import CryptoPrice
+from .models import CryptoPrice, Portfolio
 from django.http import JsonResponse
 
 @api_view(['GET'])
@@ -29,3 +29,48 @@ def get_historical_prices(request, symbol):
     prices = CryptoPrice.objects(symbol=symbol).order_by("-timestamp")[:50]
 
     return JsonResponse([crypto.to_json() for crypto in prices], safe=False)
+
+@api_view(["POST"])
+def add_holding(request):
+    """Add a crypto holding to the user's portfolio."""
+    data = request.data
+    user_id = data.get("user_id")
+    symbol = data.get("symbol")
+    amount = data.get("amount")
+
+    if not user_id or not symbol or not amount:
+        return JsonResponse({"error": "Missing data"}, status=400)
+
+    Portfolio(user_id=user_id, symbol=symbol, amount=float(amount)).save()
+
+    return JsonResponse({"message": "Holding added successfully!"})
+
+
+@api_view(["GET"])
+def get_portfolio(request, user_id):
+    """Fetch the user's portfolio holdings."""
+    holdings = Portfolio.objects(user_id=user_id)
+    return JsonResponse([holding.to_json() for holding in holdings], safe=False)
+
+
+@api_view(["GET"])
+def get_portfolio_value(request, user_id):
+    """Calculate total portfolio value based on real-time prices."""
+    holdings = Portfolio.objects(user_id=user_id)
+    total_value = 0
+
+    portfolio_data = []
+
+    for holding in holdings:
+        price_entry = CryptoPrice.objects(symbol=holding.symbol).order_by("-timestamp").first()
+        if price_entry:
+            value = holding.amount * price_entry.price
+            total_value += value
+            portfolio_data.append({
+                "symbol": holding.symbol,
+                "amount": holding.amount,
+                "current_price": price_entry.price,
+                "value": value,
+            })
+
+    return JsonResponse({"total_value": total_value, "portfolio": portfolio_data})
