@@ -1,5 +1,7 @@
-from . import views
 from django.urls import path
+from . import views
+
+app_name = "crypto"
 
 urlpatterns = [
     path('fetch-prices/', views.fetch_crypto_prices, name='fetch_prices'),

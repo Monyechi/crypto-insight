@@ -34,6 +34,7 @@ def get_historical_prices(request, symbol):
     return JsonResponse([crypto.to_json() for crypto in prices], safe=False)
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def add_holding(request):
     """Add a crypto holding to the user's portfolio."""
     data = request.data
@@ -50,6 +51,7 @@ def add_holding(request):
 
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_portfolio(request, user_id):
     """Fetch the user's portfolio holdings."""
     holdings = Portfolio.objects(user_id=user_id)
@@ -57,6 +59,7 @@ def get_portfolio(request, user_id):
 
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_portfolio_value(request, user_id):
     """Calculate total portfolio value based on real-time prices."""
     holdings = Portfolio.objects(user_id=user_id)

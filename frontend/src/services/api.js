@@ -42,14 +42,22 @@ export const addHolding = async (user_id, symbol, amount) => {
   }
 };
 
-export const getPortfolio = async (user_id) => {
-  try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/portfolio/${user_id}/`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching portfolio:", error);
-    return [];
-  }
+export const registerUser = async (username, password) => {
+  await axios.post(`${API_BASE_URL}auth/register/`, { username, password });
+};
+
+export const loginUser = async (username, password) => {
+  const response = await axios.post(`${API_BASE_URL}auth/login/`, { username, password });
+  localStorage.setItem("accessToken", response.data.access);
+  return response.data.access;
+};
+
+export const getPortfolio = async () => {
+  const token = localStorage.getItem("accessToken");
+  const response = await axios.get(`${API_BASE_URL}portfolio/`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
 };
 
 export const getPortfolioValue = async (user_id) => {
