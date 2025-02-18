@@ -23,3 +23,9 @@ def fetch_crypto_prices(request):
 def get_saved_prices(request):
     prices = list(CryptoPrice.objects())  # Force DB fetch
     return JsonResponse([crypto.to_json() for crypto in prices], safe=False)
+
+def get_historical_prices(request, symbol):
+    # Fetch the last 50 price records for the given cryptocurrency
+    prices = CryptoPrice.objects(symbol=symbol).order_by("-timestamp")[:50]
+
+    return JsonResponse([crypto.to_json() for crypto in prices], safe=False)
