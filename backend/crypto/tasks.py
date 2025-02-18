@@ -12,8 +12,8 @@ def fetch_crypto_prices_task():
         CryptoPrice.objects(symbol=coin).update_one(
             set__name=coin.capitalize(),
             set__price=data["usd"],
-            set__timestamp=datetime.utcnow(),  # Update timestamp
-            upsert=True  # Create new if it doesn't exist
+            set__timestamp=datetime.utcnow(),
+            upsert=True 
         )
 
     return "Crypto Prices Updated!"
