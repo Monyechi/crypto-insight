@@ -87,7 +87,8 @@ DATABASES = {
 # Connect to MongoDB
 connect(
     db="crypto_db",
-    host="mongodb://localhost:27017/crypto_db"
+    host="mongodb://localhost:27017/crypto_db",
+    serverSelectionTimeoutMS=5000  # 5 seconds timeout
 )
 
 
