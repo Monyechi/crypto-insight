@@ -19,3 +19,13 @@ export const updateCryptoPrices = async () => {
     console.error("Error updating crypto prices:", error);
   }
 };
+
+export const fetchHistoricalPrices = async (symbol) => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/historical/${symbol}/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching historical prices:", error);
+    return [];
+  }
+};
