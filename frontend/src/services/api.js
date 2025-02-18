@@ -29,3 +29,35 @@ export const fetchHistoricalPrices = async (symbol) => {
     return [];
   }
 };
+
+export const addHolding = async (user_id, symbol, amount) => {
+  try {
+    await axios.post("http://127.0.0.1:8000/api/portfolio/add/", {
+      user_id,
+      symbol,
+      amount,
+    });
+  } catch (error) {
+    console.error("Error adding holding:", error);
+  }
+};
+
+export const getPortfolio = async (user_id) => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/portfolio/${user_id}/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching portfolio:", error);
+    return [];
+  }
+};
+
+export const getPortfolioValue = async (user_id) => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/portfolio/value/${user_id}/`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching portfolio value:", error);
+    return { total_value: 0, portfolio: [] };
+  }
+};
