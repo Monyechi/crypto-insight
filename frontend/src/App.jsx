@@ -1,6 +1,7 @@
 import React from "react";
 import CryptoPrices from "./components/CryptoPrices";
 import CryptoChart from "./components/CryptoChart";
+import Portfolio from "./components/Portfolio";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <CryptoPrices />
       <CryptoChart symbol="bitcoin" />
       <CryptoChart symbol="ethereum" />
+      <Portfolio />
     </div>
   );
 }
