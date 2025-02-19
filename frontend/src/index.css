@@ -1,18 +1,4 @@
 /* src/index.css */
-@config {
-  theme: {
-    extend: {
-      colors: {
-        'custom-blue': '#1DA1F2',
-        // Add other custom colors or configurations here
-      },
-    },
-  },
-  plugins: [
-    // Include any Tailwind CSS plugins you're using
-  ],
-}
-
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
