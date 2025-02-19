@@ -3,20 +3,18 @@ import { fetchCryptoPrices } from "../services/api";
 
 const CryptoPrices = () => {
   const [prices, setPrices] = useState([]);
-  const [countdown, setCountdown] = useState(60); // Start countdown from 60 seconds
+  const [countdown, setCountdown] = useState(60);
 
   useEffect(() => {
     loadPrices();
 
-    // Countdown Timer: Decreases every second
     const countdownInterval = setInterval(() => {
       setCountdown((prev) => (prev > 1 ? prev - 1 : 60));
     }, 1000);
 
-    // Auto-fetch prices every 60 seconds
     const priceUpdateInterval = setInterval(() => {
       loadPrices();
-      setCountdown(60); // Reset countdown after fetching prices
+      setCountdown(60);
     }, 60000);
 
     return () => {
@@ -31,23 +29,25 @@ const CryptoPrices = () => {
   };
 
   return (
-    <div>
-      <h2>Crypto Prices</h2>
-      <p>Next price update in: <strong>{countdown} seconds</strong></p>
-      <table border="1">
+    <div className="bg-card p-6 rounded-xl shadow-soft">
+      <h2 className="text-2xl font-bold text-text mb-4">Crypto Prices</h2>
+      <p className="text-secondary mb-4">
+        Next price update in: <strong>{countdown} seconds</strong>
+      </p>
+      <table className="w-full table-auto mt-4 text-text">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Symbol</th>
-            <th>Price (USD)</th>
+            <th className="border-b border-gray-600 py-2">Name</th>
+            <th className="border-b border-gray-600 py-2">Symbol</th>
+            <th className="border-b border-gray-600 py-2">Price (USD)</th>
           </tr>
         </thead>
         <tbody>
           {prices.map((crypto, index) => (
             <tr key={index}>
-              <td>{crypto.name}</td>
-              <td>{crypto.symbol}</td>
-              <td>${crypto.price.toFixed(2)}</td>
+              <td className="py-2 border-b border-gray-600">{crypto.name}</td>
+              <td className="py-2 border-b border-gray-600">{crypto.symbol}</td>
+              <td className="py-2 border-b border-gray-600">${crypto.price.toFixed(2)}</td>
             </tr>
           ))}
         </tbody>

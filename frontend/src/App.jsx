@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./AppStyles.css"; // <-- Import your new CSS file
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
@@ -13,15 +14,18 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white px-4">
-      <h1 className="text-4xl font-bold mb-6 text-blue-500">Crypto Market Analyzer</h1>
+    <div className="appContainer">
+      <h1 className="appTitle">Crypto Market Analyzer</h1>
 
-      <div className="bg-gray-800 shadow-lg rounded-lg p-6 w-full max-w-md">
+      <div>
         {!token ? (
           isRegistering ? (
             <Register onRegister={() => setIsRegistering(false)} />
           ) : (
-            <Login onLogin={setToken} onSwitchToRegister={() => setIsRegistering(true)} />
+            <Login
+              onLogin={setToken}
+              onSwitchToRegister={() => setIsRegistering(true)}
+            />
           )
         ) : (
           <Dashboard onLogout={handleLogout} />

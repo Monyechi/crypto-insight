@@ -1,0 +1,58 @@
+.loginContainer {
+    background-color: #1e293b; /* your "card" color */
+    padding: 2rem;
+    border-radius: 0.75rem;  /* 12px or so */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 100%;
+    max-width: 28rem;  /* max-w-md */
+    margin: 0 auto;
+  }
+  
+  .loginTitle {
+    font-size: 1.875rem; /* text-3xl */
+    font-weight: 700;    /* font-bold */
+    margin-bottom: 1.5rem;
+    color: #fff;
+  }
+  
+  .loginMessage {
+    color: #ef4444; /* your "danger" color */
+    margin-bottom: 1rem;
+  }
+  
+  /* You can style inputs, buttons, etc. more granularly here: */
+  .loginInput {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #4b5563; /* border-gray-600 */
+    background-color: #374151; /* bg-gray-700 */
+    color: #fff;
+    outline: none;
+  }
+  
+  .loginButton {
+    width: 100%;
+    background-color: #1E40AF; /* primary color */
+    color: #fff;
+    font-weight: bold;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    transition: background-color 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  .loginButton:hover {
+    background-color: #1E3A8A; /* slightly darker blue */
+  }
+  
+  .switchRegister {
+    margin-top: 1rem;
+    color: #9333EA; /* secondary color */
+    cursor: pointer;
+  }
+  .switchRegister:hover {
+    text-decoration: underline;
+  }
+  

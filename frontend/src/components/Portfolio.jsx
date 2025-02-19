@@ -29,26 +29,46 @@ const Portfolio = () => {
   };
 
   return (
-    <div>
-      <h2>Crypto Portfolio</h2>
-      <p>Total Portfolio Value: <strong>${totalValue.toFixed(2)}</strong></p>
-      <input type="text" placeholder="Symbol (e.g. bitcoin)" value={symbol} onChange={(e) => setSymbol(e.target.value)} />
-      <input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
-      <button onClick={handleAddHolding}>Add Holding</button>
-
-      <h3>Your Holdings</h3>
-      <table border="1">
+    <div className="bg-card p-6 rounded-xl shadow-soft">
+      <h2 className="text-2xl font-bold text-text mb-4">Crypto Portfolio</h2>
+      <p className="text-xl mb-4">
+        Total Portfolio Value: <span className="text-success">${totalValue.toFixed(2)}</span>
+      </p>
+      <div className="flex flex-col space-y-3">
+        <input
+          type="text"
+          placeholder="Symbol (e.g. bitcoin)"
+          className="w-full p-3 rounded bg-gray-700 border border-gray-600 text-text focus:ring-2 focus:ring-primary"
+          value={symbol}
+          onChange={(e) => setSymbol(e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Amount"
+          className="w-full p-3 rounded bg-gray-700 border border-gray-600 text-text focus:ring-2 focus:ring-primary"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+        />
+        <button
+          className="w-full bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-4 rounded transition"
+          onClick={handleAddHolding}
+        >
+          Add Holding
+        </button>
+      </div>
+      <h3 className="text-xl font-bold text-text mt-6">Your Holdings</h3>
+      <table className="w-full table-auto mt-4 text-text">
         <thead>
           <tr>
-            <th>Symbol</th>
-            <th>Amount</th>
+            <th className="border-b border-gray-600 py-2">Symbol</th>
+            <th className="border-b border-gray-600 py-2">Amount</th>
           </tr>
         </thead>
         <tbody>
           {portfolio.map((holding, index) => (
             <tr key={index}>
-              <td>{holding.symbol}</td>
-              <td>{holding.amount}</td>
+              <td className="py-2 border-b border-gray-600">{holding.symbol}</td>
+              <td className="py-2 border-b border-gray-600">{holding.amount}</td>
             </tr>
           ))}
         </tbody>
