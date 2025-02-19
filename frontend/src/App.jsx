@@ -13,18 +13,20 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>Crypto Market Analyzer</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
+      <h1 className="text-4xl font-bold mb-6 text-blue-500">Crypto Market Analyzer</h1>
 
-      {!token ? (
-        isRegistering ? (
-          <Register onRegister={() => setIsRegistering(false)} />
+      <div className="bg-gray-800 shadow-lg rounded-lg p-6 w-full max-w-md">
+        {!token ? (
+          isRegistering ? (
+            <Register onRegister={() => setIsRegistering(false)} />
+          ) : (
+            <Login onLogin={setToken} onSwitchToRegister={() => setIsRegistering(true)} />
+          )
         ) : (
-          <Login onLogin={setToken} onSwitchToRegister={() => setIsRegistering(true)} />
-        )
-      ) : (
-        <Dashboard onLogout={handleLogout} />
-      )}
+          <Dashboard onLogout={handleLogout} />
+        )}
+      </div>
     </div>
   );
 }
