@@ -17,15 +17,22 @@ const Dashboard = ({ onLogout }) => {
   };
 
   return (
-    <div>
-      <h2>Dashboard</h2>
-      <p>Total Portfolio Value: <strong>${totalValue.toFixed(2)}</strong></p>
-      <button onClick={onLogout}>Logout</button>
+    <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-3xl text-center">
+      <h2 className="text-3xl font-semibold mb-4 text-blue-400">Dashboard</h2>
+      <p className="text-xl mb-4">Total Portfolio Value: <span className="text-green-400">${totalValue.toFixed(2)}</span></p>
+      <button
+        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mb-4"
+        onClick={onLogout}
+      >
+        Logout
+      </button>
 
-      <CryptoPrices />
-      <CryptoChart symbol="bitcoin" />
-      <CryptoChart symbol="ethereum" />
-      <Portfolio />
+      <div className="mt-6">
+        <CryptoPrices />
+        <CryptoChart symbol="bitcoin" />
+        <CryptoChart symbol="ethereum" />
+        <Portfolio />
+      </div>
     </div>
   );
 };
