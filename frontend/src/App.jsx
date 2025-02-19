@@ -13,7 +13,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white px-4">
       <h1 className="text-4xl font-bold mb-6 text-blue-500">Crypto Market Analyzer</h1>
 
       <div className="bg-gray-800 shadow-lg rounded-lg p-6 w-full max-w-md">

@@ -21,13 +21,13 @@ const Dashboard = ({ onLogout }) => {
       <h2 className="text-3xl font-semibold mb-4 text-blue-400">Dashboard</h2>
       <p className="text-xl mb-4">Total Portfolio Value: <span className="text-green-400">${totalValue.toFixed(2)}</span></p>
       <button
-        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mb-4"
+        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition mb-4"
         onClick={onLogout}
       >
         Logout
       </button>
 
-      <div className="mt-6">
+      <div className="mt-6 space-y-6">
         <CryptoPrices />
         <CryptoChart symbol="bitcoin" />
         <CryptoChart symbol="ethereum" />
