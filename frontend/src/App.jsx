@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import CryptoPrices from "./components/CryptoPrices";
-import CryptoChart from "./components/CryptoChart";
-import Portfolio from "./components/Portfolio";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("accessToken"));
@@ -17,7 +15,7 @@ function App() {
   return (
     <div className="App">
       <h1>Crypto Market Analyzer</h1>
-      
+
       {!token ? (
         isRegistering ? (
           <Register onRegister={() => setIsRegistering(false)} />
@@ -25,13 +23,7 @@ function App() {
           <Login onLogin={setToken} onSwitchToRegister={() => setIsRegistering(true)} />
         )
       ) : (
-        <>
-          <button onClick={handleLogout}>Logout</button>
-          <CryptoPrices />
-          <CryptoChart symbol="bitcoin" />
-          <CryptoChart symbol="ethereum" />
-          <Portfolio />
-        </>
+        <Dashboard onLogout={handleLogout} />
       )}
     </div>
   );
