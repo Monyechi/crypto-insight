@@ -22,7 +22,9 @@ export const updateCryptoPrices = async () => {
 
 export const fetchHistoricalPrices = async (symbol) => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/historical/${symbol}/`);
+    const response = await axios.get(
+      `http://127.0.0.1:8000/api/historical/${symbol}/`
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching historical prices:", error);
@@ -43,13 +45,33 @@ export const addHolding = async (user_id, symbol, amount) => {
 };
 
 export const registerUser = async (username, password) => {
-  await axios.post(`${API_BASE_URL}auth/register/`, { username, password });
+  try {
+    await axios.post(`${API_BASE_URL}auth/register/`, { username, password });
+    return { success: true, message: "User registered successfully!" };
+  } catch (error) {
+    console.error("Error registering user:", error.response?.data);
+    return {
+      success: false,
+      message: error.response?.data?.error || "Registration failed.",
+    };
+  }
 };
 
 export const loginUser = async (username, password) => {
-  const response = await axios.post(`${API_BASE_URL}auth/login/`, { username, password });
-  localStorage.setItem("accessToken", response.data.access);
-  return response.data.access;
+  try {
+    const response = await axios.post(`${API_BASE_URL}auth/login/`, {
+      username,
+      password,
+    });
+    localStorage.setItem("accessToken", response.data.access);
+    return { success: true, token: response.data.access };
+  } catch (error) {
+    console.error("Error logging in:", error.response?.data);
+    return {
+      success: false,
+      message: error.response?.data?.error || "Login failed.",
+    };
+  }
 };
 
 export const getPortfolio = async () => {
@@ -62,7 +84,9 @@ export const getPortfolio = async () => {
 
 export const getPortfolioValue = async (user_id) => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/portfolio/value/${user_id}/`);
+    const response = await axios.get(
+      `http://127.0.0.1:8000/api/portfolio/value/${user_id}/`
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching portfolio value:", error);
