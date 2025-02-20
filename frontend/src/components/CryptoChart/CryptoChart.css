@@ -1,0 +1,26 @@
+.crypto-chart-container {
+    background-color: #1e293b; /* dark card background */
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* soft shadow */
+    margin: 1.5rem auto; /* vertical spacing & center horizontally */
+    color: #e2e8f0; /* light text color */
+    max-width: 800px; /* limit width if desired */
+  }
+  
+  /* Title styling */
+  .crypto-chart-title {
+    font-size: 1.25rem; /* ~ text-xl */
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #3b82f6; /* highlight color (blue) */
+    text-align: center;
+  }
+  
+  /* Loading text styling */
+  .crypto-chart-loading {
+    color: #94a3b8; /* lighter gray text color */
+    text-align: center;
+    margin-top: 1rem;
+  }
+  

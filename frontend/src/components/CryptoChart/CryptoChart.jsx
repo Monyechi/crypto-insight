@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import "./CryptoChart.css"; // <-- Import your new CSS
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend);
 
@@ -19,20 +20,20 @@ const CryptoChart = ({ symbol }) => {
 
   useEffect(() => {
     loadHistoricalData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [symbol]);
 
   const loadHistoricalData = async () => {
     const data = await fetchHistoricalPrices(symbol);
     if (data.length === 0) return;
+
     setChartData({
-      labels: data.map((entry) =>
-        new Date(entry.timestamp).toLocaleTimeString()
-      ),
+      labels: data.map((entry) => new Date(entry.timestamp).toLocaleTimeString()),
       datasets: [
         {
           label: `${symbol.toUpperCase()} Price (USD)`,
           data: data.map((entry) => entry.price),
-          borderColor: "var(--tw-color-primary)", // using your primary color
+          borderColor: "#3b82f6", // or your preferred "primary" color
           fill: false,
           tension: 0.1,
         },
@@ -41,14 +42,12 @@ const CryptoChart = ({ symbol }) => {
   };
 
   return (
-    <div className="bg-gray-900 p-4 rounded-lg shadow-soft my-4">
-      <h3 className="text-xl font-semibold text-white mb-2">
-        {symbol.toUpperCase()} Price Chart
-      </h3>
+    <div className="crypto-chart-container">
+      <h3 className="crypto-chart-title">{symbol.toUpperCase()} Price Chart</h3>
       {chartData ? (
         <Line data={chartData} />
       ) : (
-        <p className="text-gray-400">Loading chart...</p>
+        <p className="crypto-chart-loading">Loading chart...</p>
       )}
     </div>
   );
