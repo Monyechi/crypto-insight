@@ -1,90 +1,92 @@
+/* AppStyles.css */
+
+/* General App Container */
 .appContainer {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-color: #0f172a; /* Dark background */
-    color: #e2e8f0; /* Light text */
-  }
-  
-  /* Main Content Wrapper */
-  .mainContent {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-  }
-  
-  /* Navbar Styling */
-  .navbar-custom {
-    background-color: #1e293b;
-    padding: 1rem;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .navbar-custom .navbar-brand {
-    color: #3b82f6;
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .navbar-custom .nav-link {
-    color: #ffffff;
-  }
-  
-  .navbar-custom .nav-link:hover {
-    color: #3b82f6;
-  }
-  
-  /* Card Styling */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #0f172a; /* Dark background */
+  color: #e2e8f0; /* Light text */
+}
+
+/* Main Content Wrapper */
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Navbar Styling */
+.navbar-custom {
+  background-color: #1e293b;
+  padding: 1rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-custom .navbar-brand {
+  color: #3b82f6;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar-custom .nav-link {
+  color: #ffffff;
+}
+
+.navbar-custom .nav-link:hover {
+  color: #3b82f6;
+}
+
+/* Card Styling */
+.appCard {
+  background-color: #1e293b;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Buttons */
+.primaryButton {
+  background-color: #3b82f6;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 0.75rem;
+  width: 100%;
+  transition: 0.3s;
+}
+
+.primaryButton:hover {
+  background-color: #2563eb;
+}
+
+/* Form Inputs */
+input, select, textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #374151;
+  border-radius: 8px;
+  background-color: #1e293b;
+  color: #e2e8f0;
+  margin-bottom: 1rem;
+}
+
+/* Charts */
+.chartContainer {
+  background: #1e293b;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
   .appCard {
-    background-color: #1e293b;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    padding: 1.5rem;
-    width: 100%;
-    max-width: 400px;
+    width: 90%;
   }
-  
-  /* Buttons */
-  .primaryButton {
-    background-color: #3b82f6;
-    color: white;
-    font-weight: bold;
-    border-radius: 8px;
-    padding: 0.75rem;
-    width: 100%;
-    transition: 0.3s;
-  }
-  
-  .primaryButton:hover {
-    background-color: #2563eb;
-  }
-  
-  /* Form Inputs */
-  input, select, textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #374151;
-    border-radius: 8px;
-    background-color: #1e293b;
-    color: #e2e8f0;
-    margin-bottom: 1rem;
-  }
-  
-  /* Charts */
-  .chartContainer {
-    background: #1e293b;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Mobile Responsive */
-  @media (max-width: 768px) {
-    .appCard {
-      width: 90%;
-    }
-  }
-  
+}
