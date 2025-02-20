@@ -1,10 +1,10 @@
 // App.jsx
 import React, { useState } from "react";
 import "./AppStyles.css"; 
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Dashboard from "./components/Dashboard";
-import Navbar from "./components/navbar";  // <-- import
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
+import Dashboard from "./components/Dashboard/Dashboard";
+import Navbar from "./components/Navbar/Navbar";  // <-- import
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {

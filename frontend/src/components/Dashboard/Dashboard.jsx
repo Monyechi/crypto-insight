@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import CryptoPrices from "./CryptoPrices";
-import CryptoChart from "./CryptoChart";
-import Portfolio from "./Portfolio";
-import { getPortfolioValue } from "../services/api";
+import CryptoPrices from "../CryptoPrices/CryptoPrices";
+import CryptoChart from "../CryptoChart/CryptoChart";
+import Portfolio from "../Portfolio/Portfolio";
+import { getPortfolioValue } from "../../services/api";
 
 
 const Dashboard = ({ onLogout }) => {

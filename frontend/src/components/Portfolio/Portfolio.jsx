@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { addHolding, getPortfolio, getPortfolioValue } from "../services/api";
+import { addHolding, getPortfolio, getPortfolioValue } from "../../services/api";
 
 const Portfolio = () => {
   const [userId, setUserId] = useState("user123");

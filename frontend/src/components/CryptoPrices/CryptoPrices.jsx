@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fetchCryptoPrices } from "../services/api";
+import { fetchCryptoPrices } from "../../services/api";
 
 const CryptoPrices = () => {
   const [prices, setPrices] = useState([]);

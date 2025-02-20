@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { loginUser } from "../services/api";
+import { loginUser } from "../../services/api";
 import "./Login.css"; // <-- Import the new CSS
 
 const Login = ({ onLogin, onSwitchToRegister }) => {
