@@ -1,11 +1,11 @@
+// App.jsx
 import React, { useState } from "react";
-import "./AppStyles.css"; // <-- Import your new CSS file
+import "./AppStyles.css"; 
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-
+import Navbar from "./components/navbar";  // <-- import
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("accessToken"));
@@ -18,6 +18,9 @@ function App() {
 
   return (
     <div className="appContainer">
+      {/* Render the navbar at the top */}
+      <Navbar />
+
       <h1 className="appTitle">Crypto Market Analyzer</h1>
 
       <div>

@@ -4,6 +4,7 @@ import CryptoChart from "./CryptoChart";
 import Portfolio from "./Portfolio";
 import { getPortfolioValue } from "../services/api";
 
+
 const Dashboard = ({ onLogout }) => {
   const [totalValue, setTotalValue] = useState(0);
 
