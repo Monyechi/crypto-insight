@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fetchCryptoPrices } from "../../services/api";
+import "./CryptoPrices.css"; // <-- Import your new CSS file
 
 const CryptoPrices = () => {
   const [prices, setPrices] = useState([]);
@@ -29,25 +30,26 @@ const CryptoPrices = () => {
   };
 
   return (
-    <div className="bg-card p-6 rounded-xl shadow-soft">
-      <h2 className="text-2xl font-bold text-text mb-4">Crypto Prices</h2>
-      <p className="text-secondary mb-4">
+    <div className="crypto-prices-container">
+      <h2 className="crypto-prices-title">Crypto Prices</h2>
+      <div className="countdown-info">
         Next price update in: <strong>{countdown} seconds</strong>
-      </p>
-      <table className="w-full table-auto mt-4 text-text">
+      </div>
+
+      <table className="crypto-prices-table">
         <thead>
           <tr>
-            <th className="border-b border-gray-600 py-2">Name</th>
-            <th className="border-b border-gray-600 py-2">Symbol</th>
-            <th className="border-b border-gray-600 py-2">Price (USD)</th>
+            <th>Name</th>
+            <th>Symbol</th>
+            <th>Price (USD)</th>
           </tr>
         </thead>
         <tbody>
           {prices.map((crypto, index) => (
             <tr key={index}>
-              <td className="py-2 border-b border-gray-600">{crypto.name}</td>
-              <td className="py-2 border-b border-gray-600">{crypto.symbol}</td>
-              <td className="py-2 border-b border-gray-600">${crypto.price.toFixed(2)}</td>
+              <td>{crypto.name}</td>
+              <td>{crypto.symbol}</td>
+              <td>${crypto.price.toFixed(2)}</td>
             </tr>
           ))}
         </tbody>

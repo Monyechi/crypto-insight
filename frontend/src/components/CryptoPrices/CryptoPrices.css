@@ -1,0 +1,60 @@
+/* Container */
+.crypto-prices-container {
+    background-color: #1e293b; /* A dark card-like background */
+    padding: 1.5rem;
+    border-radius: 0.75rem; /* Slightly rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    color: #e2e8f0; /* Light text */
+    max-width: 600px; 
+    margin: 0 auto 2rem; /* Center horizontally + bottom margin */
+  }
+  
+  /* Title */
+  .crypto-prices-title {
+    font-size: 1.5rem; /* ~ text-2xl */
+    font-weight: 700;  /* bold */
+    margin-bottom: 1rem;
+    color: #3b82f6;     /* A highlight color (blue) */
+    text-align: center;
+  }
+  
+  /* Countdown Info */
+  .countdown-info {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    color: #94a3b8;     /* A lighter gray text color */
+    text-align: center;
+  }
+  
+  /* Table */
+  .crypto-prices-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+  }
+  
+  .crypto-prices-table thead {
+    background-color: #0f172a; /* Slightly darker header row */
+  }
+  
+  .crypto-prices-table th,
+  .crypto-prices-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #374151; /* Subtle border */
+    text-align: left;
+  }
+  
+  .crypto-prices-table th {
+    color: #3b82f6; /* Highlight color for headers */
+    font-weight: 600;
+  }
+  
+  .crypto-prices-table td {
+    color: #e2e8f0;
+  }
+  
+  /* Hover effect on rows */
+  .crypto-prices-table tbody tr:hover {
+    background-color: #111827; /* Slightly darker on hover */
+  }
+  
