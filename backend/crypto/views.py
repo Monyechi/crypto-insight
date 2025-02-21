@@ -36,17 +36,16 @@ def get_historical_prices(request, symbol):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def add_holding(request):
-    """Add a crypto holding to the user's portfolio."""
-    data = request.data
-    user_id = data.get("user_id")
-    symbol = data.get("symbol")
-    amount = data.get("amount")
+    symbol = request.data.get("symbol")
+    amount = request.data.get("amount")
 
-    if not user_id or not symbol or not amount:
+    if not symbol or not amount:
         return JsonResponse({"error": "Missing data"}, status=400)
 
-    Portfolio(user_id=user_id, symbol=symbol, amount=float(amount)).save()
+    # Use the authenticated user's ID
+    user_id = str(request.user.id)
 
+    Portfolio(user_id=user_id, symbol=symbol, amount=float(amount)).save()
     return JsonResponse({"message": "Holding added successfully!"})
 
 
