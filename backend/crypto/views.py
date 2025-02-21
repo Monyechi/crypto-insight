@@ -52,7 +52,6 @@ def add_holding(request):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_portfolio(request, user_id):
-    """Fetch the user's portfolio holdings."""
     holdings = Portfolio.objects(user_id=user_id)
     return JsonResponse([holding.to_json() for holding in holdings], safe=False)
 
