@@ -1,5 +1,5 @@
-// src/components/Portfolio/Portfolio.jsx
-import React, { useState } from "react";
+// Portfolio.jsx
+import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -13,131 +13,181 @@ import {
 } from "chart.js";
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend);
 
-const Portfolio = () => {
+function Portfolio() {
+  // For the form
   const [symbol, setSymbol] = useState("bitcoin");
   const [amount, setAmount] = useState("");
-  const [price, setPrice] = useState("");
-  const [holdings, setHoldings] = useState([]);
+  const [pricePaid, setPricePaid] = useState("");
 
-  // Example 1hr chart data. In real usage, you'd fetch or compute over time
-  const [chartData, setChartData] = useState({
-    labels: [
-      "00:00", "00:10", "00:20", "00:30", "00:40", "00:50", "01:00",
-    ],
-    datasets: [
-      {
-        label: "Portfolio Value (USD)",
-        data: [1000, 1020, 1030, 1010, 1025, 1040, 1050],
-        borderColor: "#3b82f6",
-        fill: false,
-        tension: 0.1,
-      },
-    ],
-  });
+  // For tracking holdings
+  const [holdings, setHoldings] = useState([]); // array of { symbol, amount, pricePaid }
 
-  const handleAddHolding = () => {
-    if (!amount || !price) return;
-    const newHolding = {
-      symbol,
-      amount: parseFloat(amount),
-      price: parseFloat(price),
-      id: Date.now(), // unique ID
-    };
-    setHoldings((prev) => [...prev, newHolding]);
+  // For total portfolio value
+  const [totalValue, setTotalValue] = useState(0);
+  const [profitLoss, setProfitLoss] = useState(0);
 
-    // Clear inputs
+  // For chart data
+  const [chartData, setChartData] = useState(null);
+
+  // Example: on mount, fetch existing holdings or portfolio data
+  useEffect(() => {
+    // loadHoldingsFromAPIorLocalStorage();
+    // loadChartData();
+  }, []);
+
+  // Example: whenever holdings change, recalc total value, profit/loss, chart
+  useEffect(() => {
+    calculatePortfolio();
+    loadChartData();
+  }, [holdings]);
+
+  // This function simulates adding a new holding to the list
+  const handleAddHolding = (e) => {
+    e.preventDefault();
+    if (!amount || !pricePaid) return;
+    const newHolding = { symbol, amount: parseFloat(amount), pricePaid: parseFloat(pricePaid) };
+    setHoldings([...holdings, newHolding]);
     setAmount("");
-    setPrice("");
+    setPricePaid("");
   };
 
+  // Calculate total value & profit/loss
+  const calculatePortfolio = () => {
+    // In reality, you’d fetch current prices for each symbol
+    // For example, if BTC = $26,000, ETH = $1,700, etc.
+    // Then sum up totalValue, compare with totalPaid
+    let totalPaid = 0;
+    let currentValue = 0;
+
+    holdings.forEach((h) => {
+      const currentPrice = h.symbol === "bitcoin" ? 26000 : 1700; // placeholder
+      totalPaid += h.pricePaid * h.amount;
+      currentValue += currentPrice * h.amount;
+    });
+
+    setTotalValue(currentValue);
+    setProfitLoss(currentValue - totalPaid);
+  };
+
+  // Example chart data for 1 hour
+  const loadChartData = () => {
+    // In reality, you'd fetch the combined portfolio value for each timestamp
+    // We'll just mock some data points
+    const timestamps = ["10:00", "10:10", "10:20", "10:30", "10:40", "10:50"];
+    const values = [1000, 1050, 1025, 1080, 1100, totalValue]; // last point is current totalValue
+
+    setChartData({
+      labels: timestamps,
+      datasets: [
+        {
+          label: "Portfolio Value (USD)",
+          data: values,
+          borderColor: "#3b82f6",
+          fill: false,
+          tension: 0.1,
+        },
+      ],
+    });
+  };
+
+  // Determine arrow color + sign
+  const isProfit = profitLoss >= 0;
+  const arrowSymbol = isProfit ? "↑" : "↓";
+  const arrowColor = isProfit ? "green" : "red";
+
   return (
-    <div className="bg-card p-6 rounded-xl shadow-strong w-full max-w-3xl mx-auto">
-      <h2 className="text-3xl font-bold mb-4 text-primary">My Portfolio</h2>
+    <div className="bg-card p-6 rounded-xl shadow-strong w-full max-w-3xl text-center mx-auto">
+      <h2 className="text-4xl font-bold mb-6 text-primary">Portfolio</h2>
 
-      {/* Form for adding a holding */}
-      <div className="mb-4">
-        <label className="block mb-1 text-left font-semibold text-text">
-          Symbol
-        </label>
-        <select
-          value={symbol}
-          onChange={(e) => setSymbol(e.target.value)}
-          className="w-full p-2 rounded bg-gray-700 text-white"
+      {/* Total Portfolio Value + arrow */}
+      <p className="text-2xl mb-6">
+        Total Portfolio Value:{" "}
+        <span className="text-success">${totalValue.toFixed(2)}</span>{" "}
+        <span style={{ color: arrowColor, marginLeft: "0.5rem" }}>
+          {arrowSymbol} ${Math.abs(profitLoss).toFixed(2)}
+        </span>
+      </p>
+
+      {/* 1hr Chart */}
+      {chartData ? (
+        <div className="mb-6">
+          <Line data={chartData} />
+        </div>
+      ) : (
+        <p>Loading chart...</p>
+      )}
+
+      {/* Add Holding Form */}
+      <form onSubmit={handleAddHolding} className="mb-6">
+        <div className="mb-3">
+          <label htmlFor="symbol-select" className="block mb-1">
+            Symbol:
+          </label>
+          <select
+            id="symbol-select"
+            value={symbol}
+            onChange={(e) => setSymbol(e.target.value)}
+            className="bg-gray-700 border border-gray-600 rounded p-2"
+          >
+            <option value="bitcoin">Bitcoin</option>
+            <option value="ethereum">Ethereum</option>
+          </select>
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="amount" className="block mb-1">
+            Amount:
+          </label>
+          <input
+            id="amount"
+            type="number"
+            step="any"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="bg-gray-700 border border-gray-600 rounded p-2 w-full"
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="pricePaid" className="block mb-1">
+            Price Paid (USD):
+          </label>
+          <input
+            id="pricePaid"
+            type="number"
+            step="any"
+            value={pricePaid}
+            onChange={(e) => setPricePaid(e.target.value)}
+            className="bg-gray-700 border border-gray-600 rounded p-2 w-full"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="bg-primary text-white py-2 px-4 rounded hover:bg-blue-700"
         >
-          <option value="bitcoin">Bitcoin</option>
-          <option value="ethereum">Ethereum</option>
-        </select>
-      </div>
-
-      <div className="mb-4">
-        <label className="block mb-1 text-left font-semibold text-text">
-          Amount
-        </label>
-        <input
-          type="number"
-          min="0"
-          step="any"
-          className="w-full p-2 rounded bg-gray-700 text-white"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          placeholder="Enter amount of BTC/ETH"
-        />
-      </div>
-
-      <div className="mb-4">
-        <label className="block mb-1 text-left font-semibold text-text">
-          Price (USD)
-        </label>
-        <input
-          type="number"
-          min="0"
-          step="any"
-          className="w-full p-2 rounded bg-gray-700 text-white"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          placeholder="Enter price you paid"
-        />
-      </div>
-
-      <button
-        className="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={handleAddHolding}
-      >
-        Add Holding
-      </button>
+          Add Holding
+        </button>
+      </form>
 
       {/* Scrollable list of holdings */}
       <div
-        className="mt-6 overflow-y-auto"
-        style={{ maxHeight: "200px", border: "1px solid #4b5563", borderRadius: "0.5rem" }}
+        className="border border-gray-600 rounded p-3"
+        style={{ maxHeight: "200px", overflowY: "auto" }}
       >
-        <table className="w-full text-left">
-          <thead className="bg-gray-700">
-            <tr>
-              <th className="p-2">Symbol</th>
-              <th className="p-2">Amount</th>
-              <th className="p-2">Price Paid</th>
-            </tr>
-          </thead>
-          <tbody>
-            {holdings.map((h) => (
-              <tr key={h.id} className="border-b border-gray-600">
-                <td className="p-2">{h.symbol}</td>
-                <td className="p-2">{h.amount}</td>
-                <td className="p-2">${h.price}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* 1hr line chart for entire portfolio */}
-      <div className="mt-6 bg-gray-800 p-4 rounded">
-        <h3 className="text-xl font-semibold text-white mb-2">1hr Portfolio Chart</h3>
-        <Line data={chartData} />
+        {holdings.length === 0 ? (
+          <p>No holdings added yet.</p>
+        ) : (
+          holdings.map((h, i) => (
+            <div key={i} className="mb-2">
+              <strong>{h.symbol.toUpperCase()}</strong>: {h.amount} @ $
+              {h.pricePaid.toFixed(2)}
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
-};
+}
 
 export default Portfolio;
