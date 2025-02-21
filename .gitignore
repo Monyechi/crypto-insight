@@ -1,1 +1,5 @@
 .DS_Store
+backend/crypto/__pycache__/urls.cpython-312.pyc
+backend/crypto/__pycache__/views.cpython-312.pyc
+backend/backend/__pycache__/settings.cpython-312.pyc
+backend/backend/__pycache__/urls.cpython-312.pyc

@@ -4,6 +4,7 @@ from . import views
 app_name = "crypto"
 
 urlpatterns = [
+
     # Authentication URLs
     path("auth/login/", views.login_user, name="login_user"),
     path("auth/protected/", views.protected_view, name="protected_view"),

@@ -50,7 +50,7 @@ function Portfolio() {
     try {
       const token = localStorage.getItem("accessToken");
       // IMPORTANT: Use the Django server URL on port 8000
-      const res = await axios.get("http://localhost:8000/portfolio/", {
+      const res = await axios.get("http://localhost:8000/crypto/portfolio/", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
