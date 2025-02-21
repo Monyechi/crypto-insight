@@ -18,6 +18,6 @@ urlpatterns = [
     # Portfolio URLs
     path("portfolio/add/", views.add_holding, name="add_holding"),
     path("portfolio/", views.get_portfolio, name="get_portfolio"),
-    path("portfolio/value/<str:user_id>/", views.get_portfolio_value, name="get_portfolio_value"),
+    path("portfolio/value/", views.get_portfolio_value, name="get_portfolio_value"),
     
 ]

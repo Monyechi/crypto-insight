@@ -82,14 +82,16 @@ export const getPortfolio = async () => {
   return response.data;
 };
 
-export const getPortfolioValue = async (user_id) => {
+export const getPortfolioValue = async () => {
   try {
-    const response = await axios.get(
-      `http://127.0.0.1:8000/api/portfolio/value/${user_id}/`
-    );
+    const token = localStorage.getItem("accessToken");
+    const response = await axios.get("http://127.0.0.1:8000/api/portfolio/value/", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching portfolio value:", error);
     return { total_value: 0, portfolio: [] };
   }
 };
+

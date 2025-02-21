@@ -66,7 +66,7 @@ def get_portfolio(request):
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def get_portfolio_value(request, user_id):
+def get_portfolio_value(request):
     """Calculate total portfolio value based on real-time prices."""
     user_id = str(request.user.id)
     holdings = Portfolio.objects(user_id=user_id)
@@ -87,6 +87,7 @@ def get_portfolio_value(request, user_id):
             })
 
     return JsonResponse({"total_value": total_value, "portfolio": portfolio_data})
+
 
 
 @api_view(["POST"])
