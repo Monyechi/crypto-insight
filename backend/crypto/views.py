@@ -38,20 +38,27 @@ def get_historical_prices(request, symbol):
 def add_holding(request):
     symbol = request.data.get("symbol")
     amount = request.data.get("amount")
+    price_paid = request.data.get("pricePaid")  # <--- new
 
-    if not symbol or not amount:
+    if not symbol or not amount or not price_paid:
         return JsonResponse({"error": "Missing data"}, status=400)
 
-    # Use the authenticated user's ID
     user_id = str(request.user.id)
 
-    Portfolio(user_id=user_id, symbol=symbol, amount=float(amount)).save()
+    Portfolio(
+        user_id=user_id,
+        symbol=symbol,
+        amount=float(amount),
+        price_paid=float(price_paid)  # <--- new
+    ).save()
+
     return JsonResponse({"message": "Holding added successfully!"})
 
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_portfolio(request):
+    """Fetch the user's portfolio holdings using the authenticated user's ID."""
     user_id = str(request.user.id)
     holdings = Portfolio.objects(user_id=user_id)
     return JsonResponse([h.to_json() for h in holdings], safe=False)

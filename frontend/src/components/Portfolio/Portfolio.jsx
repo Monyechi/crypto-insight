@@ -1,5 +1,6 @@
-// Portfolio.jsx
+// src/components/Portfolio/Portfolio.jsx
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -11,57 +12,108 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend);
 
 function Portfolio() {
-  // For the form
+  // Form inputs
   const [symbol, setSymbol] = useState("bitcoin");
   const [amount, setAmount] = useState("");
   const [pricePaid, setPricePaid] = useState("");
 
-  // For tracking holdings
-  const [holdings, setHoldings] = useState([]); // array of { symbol, amount, pricePaid }
+  // Portfolio data
+  const [holdings, setHoldings] = useState([]); // array of { symbol, amount, price_paid, etc. }
 
-  // For total portfolio value
+  // Calculated totals
   const [totalValue, setTotalValue] = useState(0);
   const [profitLoss, setProfitLoss] = useState(0);
 
-  // For chart data
+  // Chart data
   const [chartData, setChartData] = useState(null);
 
-  // Example: on mount, fetch existing holdings or portfolio data
+  // 1. Fetch existing holdings from backend on mount
   useEffect(() => {
-    // loadHoldingsFromAPIorLocalStorage();
-    // loadChartData();
+    fetchHoldings();
   }, []);
 
-  // Example: whenever holdings change, recalc total value, profit/loss, chart
+  // 2. Whenever holdings change, recalc totals and reload chart
   useEffect(() => {
     calculatePortfolio();
     loadChartData();
   }, [holdings]);
 
-  // This function simulates adding a new holding to the list
-  const handleAddHolding = (e) => {
+  // -------------------------------
+  //      API CALLS
+  // -------------------------------
+
+  const fetchHoldings = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      // IMPORTANT: Use the Django server URL on port 8000
+      const res = await axios.get("http://localhost:8000/portfolio/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      console.log("GET /portfolio/ response:", res.data);
+
+      // If your backend returns an array, do this:
+      setHoldings(res.data);
+
+      // If your backend returns {"portfolio": [...]} instead, do:
+      // setHoldings(res.data.portfolio);
+
+    } catch (err) {
+      console.error("Error fetching holdings:", err);
+    }
+  };
+
+  const addHoldingToBackend = async (symbol, amount, pricePaid) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      // Again, point to port 8000 for the POST request
+      await axios.post(
+        "http://localhost:8000/portfolio/add/",
+        { symbol, amount, pricePaid },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+    } catch (err) {
+      console.error("Error adding holding:", err);
+    }
+  };
+
+  // -------------------------------
+  //      HANDLERS & CALCULATIONS
+  // -------------------------------
+
+  const handleAddHolding = async (e) => {
     e.preventDefault();
     if (!amount || !pricePaid) return;
-    const newHolding = { symbol, amount: parseFloat(amount), pricePaid: parseFloat(pricePaid) };
-    setHoldings([...holdings, newHolding]);
+
+    // 1) Send to backend
+    await addHoldingToBackend(symbol, amount, pricePaid);
+
+    // 2) Refresh holdings from DB
+    fetchHoldings();
+
+    // 3) Reset form
+    setSymbol("bitcoin");
     setAmount("");
     setPricePaid("");
   };
 
-  // Calculate total value & profit/loss
+  // Calculate total portfolio value & profit/loss
   const calculatePortfolio = () => {
-    // In reality, you’d fetch current prices for each symbol
-    // For example, if BTC = $26,000, ETH = $1,700, etc.
-    // Then sum up totalValue, compare with totalPaid
     let totalPaid = 0;
     let currentValue = 0;
 
+    // Placeholder prices for demonstration:
     holdings.forEach((h) => {
-      const currentPrice = h.symbol === "bitcoin" ? 26000 : 1700; // placeholder
-      totalPaid += h.pricePaid * h.amount;
+      const currentPrice = h.symbol === "bitcoin" ? 26000 : 1700;
+      // If your backend stores it as "price_paid" (snake_case), use h.price_paid
+      const paid = h.price_paid ?? h.pricePaid ?? 0;
+      totalPaid += paid * h.amount;
       currentValue += currentPrice * h.amount;
     });
 
@@ -69,12 +121,11 @@ function Portfolio() {
     setProfitLoss(currentValue - totalPaid);
   };
 
-  // Example chart data for 1 hour
+  // Build chart data (mock example)
   const loadChartData = () => {
-    // In reality, you'd fetch the combined portfolio value for each timestamp
-    // We'll just mock some data points
+    // In a real app, you'd fetch historical data for the combined portfolio
     const timestamps = ["10:00", "10:10", "10:20", "10:30", "10:40", "10:50"];
-    const values = [1000, 1050, 1025, 1080, 1100, totalValue]; // last point is current totalValue
+    const values = [1000, 1050, 1025, 1080, 1100, totalValue];
 
     setChartData({
       labels: timestamps,
@@ -90,10 +141,14 @@ function Portfolio() {
     });
   };
 
-  // Determine arrow color + sign
+  // Determine arrow color + symbol
   const isProfit = profitLoss >= 0;
   const arrowSymbol = isProfit ? "↑" : "↓";
   const arrowColor = isProfit ? "green" : "red";
+
+  // -------------------------------
+  //      RENDER
+  // -------------------------------
 
   return (
     <div className="bg-card p-6 rounded-xl shadow-strong w-full max-w-3xl text-center mx-auto">
@@ -178,12 +233,14 @@ function Portfolio() {
         {holdings.length === 0 ? (
           <p>No holdings added yet.</p>
         ) : (
-          holdings.map((h, i) => (
-            <div key={i} className="mb-2">
-              <strong>{h.symbol.toUpperCase()}</strong>: {h.amount} @ $
-              {h.pricePaid.toFixed(2)}
-            </div>
-          ))
+          holdings.map((h, i) => {
+            const paid = h.price_paid ?? h.pricePaid ?? 0;
+            return (
+              <div key={i} className="mb-2">
+                <strong>{h.symbol.toUpperCase()}</strong>: {h.amount} @ ${paid.toFixed(2)}
+              </div>
+            );
+          })
         )}
       </div>
     </div>

@@ -16,15 +16,19 @@ class CryptoPrice(Document):
         }
 
 class Portfolio(Document):
-    user_id = StringField(required=True)  # User identifier (could be a UUID or email)
-    symbol = StringField(required=True)  # Crypto symbol (e.g., "bitcoin")
-    amount = FloatField(required=True)  # How much of the crypto user owns
-    timestamp = DateTimeField(default=datetime.utcnow)  # When it was added
+    user_id = StringField(required=True)
+    symbol = StringField(required=True)
+    amount = FloatField(required=True)
+    price_paid = FloatField(required=True) 
+    timestamp = DateTimeField(default=datetime.utcnow)
 
     def to_json(self):
         return {
             "user_id": self.user_id,
             "symbol": self.symbol,
             "amount": self.amount,
+            "price_paid": self.price_paid,  # <--- new field
             "timestamp": self.timestamp.isoformat(),
         }
+
+        
