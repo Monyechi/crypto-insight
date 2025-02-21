@@ -4,7 +4,7 @@ import "./AppStyles.css";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import Dashboard from "./components/Dashboard/Dashboard";
-import Navbar from "./components/Navbar/Navbar";  // <-- import
+import Navbar from "./components/Navbar/Navbar";  
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -17,27 +17,29 @@ function App() {
   };
 
   return (
-    <div className="appContainer">
-      {/* Render the navbar at the top */}
-      <Navbar />
+    <>
+      {/* Navbar is now outside .appContainer */}
+      <Navbar onLogout={handleLogout} />
 
-      <h1 className="appTitle">Crypto Market Analyzer</h1>
+      <div className="appContainer">
+        <h1 className="appTitle">Crypto Market Analyzer</h1>
 
-      <div>
-        {!token ? (
-          isRegistering ? (
-            <Register onRegister={() => setIsRegistering(false)} />
+        <div>
+          {!token ? (
+            isRegistering ? (
+              <Register onRegister={() => setIsRegistering(false)} />
+            ) : (
+              <Login
+                onLogin={setToken}
+                onSwitchToRegister={() => setIsRegistering(true)}
+              />
+            )
           ) : (
-            <Login
-              onLogin={setToken}
-              onSwitchToRegister={() => setIsRegistering(true)}
-            />
-          )
-        ) : (
-          <Dashboard onLogout={handleLogout} />
-        )}
+            <Dashboard onLogout={handleLogout} />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

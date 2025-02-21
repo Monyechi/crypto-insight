@@ -1,7 +1,9 @@
+// Navbar.jsx
 import React from "react";
 import { Link } from "react-router-dom";
+import "./Navbar.css"; // <-- We'll create this file next
 
-const Navbar = () => {
+const Navbar = ({ onLogout }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark navbar-custom">
       <div className="container">
@@ -19,22 +21,31 @@ const Navbar = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
+            {/* Dashboard Link */}
             <li className="nav-item">
               <Link className="nav-link" to="/dashboard">
                 Dashboard
               </Link>
             </li>
+
+            {/* Portfolio Link */}
             <li className="nav-item">
               <Link className="nav-link" to="/portfolio">
                 Portfolio
               </Link>
             </li>
+
+            {/* Logout Button */}
             <li className="nav-item">
-              <Link className="nav-link btn btn-danger text-white" to="/logout">
+              <button
+                className="nav-link btn btn-danger text-white"
+                onClick={onLogout}
+              >
                 Logout
-              </Link>
+              </button>
             </li>
           </ul>
         </div>

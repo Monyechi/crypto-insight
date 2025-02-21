@@ -1,0 +1,31 @@
+/* Navbar.css */
+
+/* The .navbar-custom class extends Bootstrap's navbar styling. */
+.navbar-custom {
+    background-color: #1e293b; /* Dark background */
+    padding: 1rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Navbar brand color/size */
+  .navbar-custom .navbar-brand {
+    color: #3b82f6; /* A highlight blue */
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  /* Nav links styling */
+  .navbar-custom .nav-link {
+    color: #ffffff;
+    margin-right: 1rem;
+  }
+  
+  .navbar-custom .nav-link:hover {
+    color: #3b82f6; /* Hover color for nav links */
+  }
+  
+  /* Adjust spacing for the last nav-item if needed */
+  .navbar-custom .nav-item:last-of-type .nav-link {
+    margin-right: 0;
+  }
+  
